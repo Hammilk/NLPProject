@@ -12,7 +12,7 @@ filtered_df = df[~df['full_text'].str.contains("PROPER_NAME", case=False, na=Fal
 text = [filtered_df.loc[index, 'full_text'] for index in filtered_df.index]
 
 #Set up similarity
-count_vect = CountVectorizer(lowercase=False, stop_words='english')
+count_vect = CountVectorizer(lowercase=True, stop_words='english')
 count_matrix = count_vect.fit_transform(text)
 
 cosine_similarity_matrix = cosine_similarity(count_matrix)
