@@ -9,6 +9,10 @@ countVector.py = basic word frequency
 transformers.py = use distilbert to create embeddings
 approxNearestNeighbor = an approximate k nearest neighbor
 
+
+To run. Import yaml file to virtual environment. Change relative references for the file name in the model. In command line: python3 {modelname.py}.
+
+
 TODO:
 Maybe implement TFIDF? Hard maybe
     Perhaps in an emsemble method?
