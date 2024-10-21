@@ -15,12 +15,10 @@ class MyCorpus:
         self.data = pd.read_csv(csv_file)
         self.data = self.data[self.data.iloc[:, 1].notna() & ~self.data.iloc[:, 1].str.contains("PROPER_NAME")]
         self.essay_ids = self.data['essay_id'].tolist()
-
-    def __iter__(self):
+def __iter__(self):
         for doc in self.data.iloc[:, 1]:
             cleaned_doc = remove_stopwords(doc)
-            tokens = simple_preprocess(cleaned_doc)
-            yield tokens
+            yield cleaned_doc
 #Load file
 
 load_start_time = time.time()
@@ -52,7 +50,7 @@ def encode_sentences_in_batches(sentences, batch_size):
 
 
 
-documents = [" ".join(doc) for doc in corpus_stream]
+documents = list(corpus_stream)
 
 
 batch_size = 64
