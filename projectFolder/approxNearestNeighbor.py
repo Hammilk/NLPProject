@@ -3,11 +3,14 @@ import faiss
 from sentence_transformers import SentenceTransformer
 import time
 import textwrap
+import os
 
 start_time = time.time() 
 
 ## Process text into a list for count vectorization
-df = pd.read_csv('~/Dev/pythonProjects/train.csv')
+
+relative_path = os.path.join('..', 'train.csv')
+df = pd.read_csv(relative_path)
 
 # Extract the essay IDs from the original dataframe (assuming the first column is the essay ID)
 essay_ids = df.iloc[:, 0]

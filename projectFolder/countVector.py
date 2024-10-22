@@ -4,11 +4,14 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import textwrap
 import time
+import os
 
 start_time = time.time()
 
 ##Process text into a list for count vectorization
-df = pd.read_csv('~/Dev/pythonProjects/train.csv')
+#df = pd.read_csv('~/Dev/pythonProjects/train.csv')
+relative_path = os.path.join('..', 'train.csv')
+df = pd.read_csv(relative_path)
 
 #Drop all documents that contains the string "PROPER_NAME"
 filtered_df = df[~df['full_text'].str.contains("PROPER_NAME", case=False, na=False)].reset_index()

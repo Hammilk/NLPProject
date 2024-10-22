@@ -6,6 +6,7 @@ from transformers import AutoModel, AutoTokenizer
 import numpy as np
 import time
 import textwrap
+import os
 
 start_time = time.time()
 
@@ -20,8 +21,9 @@ class MyCorpus:
 # Load file
 load_start_time = time.time()
 
-file = '~/Dev/pythonProjects/train.csv'
-corpus = MyCorpus(file)
+relative_path = os.path.join('..', 'train.csv')
+#file = '~/Dev/pythonProjects/train.csv'
+corpus = MyCorpus(relative_path)
 
 # Load Model
 model_name = "distilbert-base-uncased"
