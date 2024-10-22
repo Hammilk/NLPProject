@@ -14,5 +14,7 @@ To run. Import yaml file to virtual environment. Change relative references for 
 You will have to install pytorch manually if it not already installed on your system.  
 
 A query python script has been included (queryer.py) to query for essays in the training data. To run the query script use the command "python3 queryer.py {essayID1} {essayID2}  
-I did not implement error checks for the query script. Just don't mess up the command.
+I did not implement error checks for the query script. Just don't mess up the command.  
+
+Created 2 bash scripts to change all .py files to .html and to delete all .html files. Run Bash scripts for presentation.
 
