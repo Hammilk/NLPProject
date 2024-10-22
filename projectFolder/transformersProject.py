@@ -81,7 +81,6 @@ for idx in top_5_indices:
     print(f"Text Preview 2: {text_preview_2}")
 
 print("***************************************")
-print("***************************************")
 
 end_time = time.time()
 total_time = end_time - start_time
