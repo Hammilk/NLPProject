@@ -27,6 +27,7 @@ model_name = 'paraphrase-MiniLM-L6-v2'
 
 model_start_time = time.time()
 
+#Instantiate model
 model = SentenceTransformer(model_name)
 
 model_end_time = time.time()
@@ -35,30 +36,28 @@ embedding_start_time = model_end_time
 embeddings = model.encode(documents, show_progress_bar=True)
 embeddings = embeddings.astype('float32')
 
-# Step 3: Initialize FAISS Index for Approximate Nearest Neighbor Search
+#Initialize FAISS Index for Approximate Nearest Neighbor Search
 d = embeddings.shape[1]  # Dimensionality of the embeddings
-nlist = 130  # Number of clusters (adjust based on your dataset size)
+nlist = 130  # Number of clusters (sqrt-ish of dataset size)
 
 # Create a quantizer
-quantizer = faiss.IndexFlatL2(d)  # Use L2 distance for the quantizer
+quantizer = faiss.IndexFlatL2(d)  # Use Euclidean since FAISS prefers Euclidean
 
 # Create the IVFFlat index
 index = faiss.IndexIVFFlat(quantizer, d, nlist, faiss.METRIC_L2)
 
-# Step 4: Train the index with the embeddings
+#Ignore IDE errors. Docs for C/C++ not python.
 index.train(embeddings)  # Train the index with your embeddings
 
-# Step 5: Add embeddings to the index
 index.add(embeddings)  # Add all embeddings to the index
 
 embedding_end_time = time.time()
 query_start_time = time.time()
 
-# Step 6: Collect pairs of document similarities
 pairs = []  # To store document pairs and their distances
 
 # Define number of nearest neighbors to retrieve
-k = 5  # You can adjust this based on your needs
+k = 5
 
 for i in range(len(documents)):
     query_vector = embeddings[i].reshape(1, -1)  # Reshape for the search
@@ -72,10 +71,8 @@ for i in range(len(documents)):
 
 print(pairs)
 
-# Step 7: Sort pairs by distance and select the top 5 closest pairs
 top_pairs = sorted(pairs, key=lambda x: x[2])[:5]  # Sort by distance (ascending)
 
-# Step 8: Display the essay IDs of the top 5 document pairings
 print("Top 5 Document Pairing Essay IDs with Closest Distances:")
 for idx1, idx2, dist in top_pairs:
     essay_id_1 = filtered_essay_ids[idx1]

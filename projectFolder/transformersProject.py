@@ -10,6 +10,7 @@ import os
 
 start_time = time.time()
 
+#Probably didn't need to make a class.
 class MyCorpus:
     def __init__(self, csv_file):
         self.data = pd.read_csv(csv_file)
@@ -22,7 +23,6 @@ class MyCorpus:
 load_start_time = time.time()
 
 relative_path = os.path.join('..', 'train.csv')
-#file = '~/Dev/pythonProjects/train.csv'
 corpus = MyCorpus(relative_path)
 
 # Load Model
@@ -36,18 +36,18 @@ model = model.to(device)
 load_end_time = time.time()
 
 # Function to encode sentences in batches
+# Must do in batches or else will run out of memory
 def encode_sentences_in_batches(sentences, batch_size):
     embeddings = []
     for i in range(0, len(sentences), batch_size):
         batch = sentences[i:i + batch_size]
         with torch.no_grad():
-            inputs = tokenizer(batch, padding=True, truncation=True, return_tensors="pt").to(device)
+            inputs = tokenizer(batch, padding=True, truncation=True, return_tensors="pt").to(device) #Add to GPU
             outputs = model(**inputs)
             batch_embeddings = outputs.last_hidden_state.mean(dim=1)
             embeddings.append(batch_embeddings)
     return torch.cat(embeddings) if embeddings else torch.empty(0, model.config.hidden_size)
 
-# No need for corpus streaming, just use the documents directly
 documents = corpus.documents
 
 batch_size = 64
@@ -58,8 +58,10 @@ embedding_start_time = time.time()
 embeddings = encode_sentences_in_batches(documents, batch_size)
 
 # Compute cosine similarity matrix
+#Do this in CPU since it's already pretty fast
 cosine_similarity_matrix = cosine_similarity(embeddings.cpu().numpy())
 
+#i don't know if this is necessary but delete to save memory
 del embeddings
 
 embedding_end_time = time.time()

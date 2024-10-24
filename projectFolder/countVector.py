@@ -9,7 +9,6 @@ import os
 start_time = time.time()
 
 ##Process text into a list for count vectorization
-#df = pd.read_csv('~/Dev/pythonProjects/train.csv')
 relative_path = os.path.join('..', 'train.csv')
 df = pd.read_csv(relative_path)
 
