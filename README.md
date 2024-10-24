@@ -18,6 +18,8 @@ A query python script has been included (queryer.py) to query for essays in the 
 I did not implement error checks for the query script. Just don't mess up the command.  
 
 Created 2 bash scripts to change all .py files to .html and to delete all .html files. Run Bash scripts for presentation.  
+File names self-documenting  
+
 
 If you want to use bash scripts on another machine, rembmer to grant execute permissions using "chmod +x script_name.sh"
 
